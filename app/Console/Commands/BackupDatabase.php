@@ -39,21 +39,20 @@ class BackupDatabase extends Command
     public function handle()
     {
 
-       DB::table('products')->orderBy('id')->chunk(50,function ($products, $i = 1){
-           $filename = 'backup/'.date('d-m-Y H-i-s')." - product".$i.".csv";
-           $handle = fopen($filename, 'w');
-           fputcsv($handle, array('id', 'name', 'status', 'price'));
-           foreach($products as $product){
-               fputcsv($handle, array($product->id, $product->name, $product->status, $product->price));
-           }
-           fclose($handle);
-           $headers = array(
-               'Content-Type' => 'text/csv',
-           );
-           $i++;
-       });
-       $this->info('Backup dữ liệu thành công!');
-
+        DB::table('products')->orderBy('id')->chunk(50,function ($products, $i = 1){
+            $filename = 'backup/'.date('d-m-Y H-i-s')." - product".$i.".csv";
+            $handle = fopen($filename, 'w');
+            fputcsv($handle, array('id', 'name', 'status', 'price'));
+            foreach($products as $product){
+                fputcsv($handle, array($product->id, $product->name, $product->status, $product->price));
+            }
+            fclose($handle);
+            $headers = array(
+                'Content-Type' => 'text/csv',
+            );
+            $i++;
+        });
+        $this->info('Backup dữ liệu thành công!');
 
 
     }
